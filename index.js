@@ -21,12 +21,23 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
-client.connect((err) => {
-  const collection = client.db("carSet").collection("car");
-  console.log("Connected to mongodb");
-  // perform actions on the collection object
-  client.close();
-});
+
+async function run() {
+  try {
+    await client.connect();
+    const carCollection = client.db("carSet").collection("car");
+
+    // Load All Data
+    app.get("/cars", async (req, res) => {
+      const query = {};
+      const cursor = carCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+  } finally {
+  }
+}
+run().catch(console.dir);
 
 // Default Get Route
 app.get("/", (req, res) => {
