@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 client.connect((err) => {
-  const collection = client.db("test").collection("devices");
+  const collection = client.db("carSet").collection("car");
   console.log("Connected to mongodb");
   // perform actions on the collection object
   client.close();
