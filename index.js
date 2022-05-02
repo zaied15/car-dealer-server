@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 var jwt = require("jsonwebtoken");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
 const app = express();
@@ -32,6 +32,20 @@ async function run() {
       const query = {};
       const cursor = carCollection.find(query);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+    // Load a single data by id
+    app.post("/car/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await carCollection.findOne(query);
+      res.send(result);
+    });
+
+    // Post a single data into DB
+    app.post("/car", async (req, res) => {
+      const car = req.body;
+      const result = await carCollection.insertOne(car);
       res.send(result);
     });
   } finally {
