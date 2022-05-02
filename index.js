@@ -48,6 +48,14 @@ async function run() {
       const result = await carCollection.insertOne(car);
       res.send(result);
     });
+
+    // Delete a single Data from DB
+    app.post("/carDelete/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await carCollection.deleteOne(query);
+      res.send(result);
+    });
   } finally {
   }
 }
