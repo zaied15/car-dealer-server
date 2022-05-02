@@ -54,7 +54,6 @@ async function run() {
           sold: parseInt(updatedCar.sold),
         },
       };
-      console.log(updatedDoc);
       const result = await carCollection.updateOne(filter, updatedDoc, options);
       res.send(result);
     });
