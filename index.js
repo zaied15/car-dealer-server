@@ -42,6 +42,22 @@ async function run() {
       res.send(result);
     });
 
+    // Update a single data by id
+    app.put("/car/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedCar = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          quantity: parseInt(updatedCar.quantity),
+        },
+      };
+      console.log(updatedDoc);
+      const result = await carCollection.updateOne(filter, updatedDoc, options);
+      res.send(result);
+    });
+
     // Post a single data into DB
     app.post("/car", async (req, res) => {
       const car = req.body;
