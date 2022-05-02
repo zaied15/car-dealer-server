@@ -56,6 +56,15 @@ async function run() {
       const result = await carCollection.deleteOne(query);
       res.send(result);
     });
+
+    // Find Use wise items from db by email
+    app.get("/myCar", async (req, res) => {
+      const email = req.query.email;
+      const query = { email };
+      const cursor = carCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
