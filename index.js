@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
@@ -11,11 +11,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// carDB
-// XiCI6YFqDoopM8iH
-
-const uri =
-  "mongodb+srv://carDB:XiCI6YFqDoopM8iH@cluster0.u6bof.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.u6bof.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -26,6 +22,15 @@ async function run() {
   try {
     await client.connect();
     const carCollection = client.db("carSet").collection("car");
+
+    // Token Access Management
+    app.post("/login", async (req, res) => {
+      const user = req.body;
+      const accessToken = jwt.sign(user, process.env.TOKEN_ACCESS, {
+        expiresIn: "1d",
+      });
+      res.send(accessToken);
+    });
 
     // Load All Data
     app.get("/cars", async (req, res) => {
