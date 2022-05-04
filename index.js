@@ -44,7 +44,7 @@ async function run() {
     app.post("/login", async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.TOKEN_ACCESS, {
-        expiresIn: "1d",
+        expiresIn: "30d",
       });
       res.send(accessToken);
     });
@@ -115,7 +115,7 @@ run().catch(console.dir);
 
 // Default Get Route
 app.get("/", (req, res) => {
-  res.send("My Car Inventory Server Is Running");
+  res.send("My Car Dealer Inventory Server Is Running");
 });
 
 // Port Listener
