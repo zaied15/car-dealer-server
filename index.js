@@ -108,6 +108,12 @@ async function run() {
         return res.status(403).send({ message: "Forbidden to access" });
       }
     });
+
+    // Total product count
+    app.get("/carCount", async (req, res) => {
+      const count = await carCollection.estimatedDocumentCount();
+      res.send({ count });
+    });
   } finally {
   }
 }
