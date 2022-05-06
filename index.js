@@ -51,10 +51,22 @@ async function run() {
 
     // Load All Data
     app.get("/cars", async (req, res) => {
+      const page = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
+
       const query = {};
       const cursor = carCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
+      let cars;
+      if (page || size) {
+        cars = await cursor
+          .skip(page * size)
+          .limit(size)
+          .toArray();
+      } else {
+        cars = await cursor.toArray();
+      }
+
+      res.send(cars);
     });
     // Load a single data by id
     app.post("/car/:id", async (req, res) => {
