@@ -85,7 +85,6 @@ async function run() {
       const updatedDoc = {
         $set: {
           quantity: parseInt(updatedCar.quantity),
-          sold: parseInt(updatedCar.sold),
         },
       };
       const result = await carCollection.updateOne(filter, updatedDoc, options);
